@@ -1,0 +1,42 @@
+version: '3.3'
+
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/var/www/html
+    networks:
+      - my-network
+
+  php:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    volumes:
+      - "./app:/var/www/html"
+    networks:
+      - my-network
+
+  db:
+    image: mysql:latest
+    restart: always
+    volumes:
+      - ../mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - my-network
+
+  backup:
+    image: alpine
+    command: ["sleep", "86400"]
+    volumes:
+      - ../mysql:/data
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

@@ -1,9 +1,1 @@
-FROM php:8.1-fpm
-
-WORKDIR /var/www/html
-
-COPY index.php /var/www/html
-
-EXPOSE 80
-
-CMD ["php-fpm"]
+FROM php:8.1.28-fpm-alpine3.20
