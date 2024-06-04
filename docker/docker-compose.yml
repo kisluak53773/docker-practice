@@ -23,9 +23,9 @@ services:
     image: mysql:latest
     restart: always
     volumes:
-      - ../mysql:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - my-network
 
@@ -33,10 +33,13 @@ services:
     image: alpine
     command: ["sleep", "86400"]
     volumes:
-      - ../mysql:/data
+      - mysql-data:/data
     networks:
       - my-network
 
 networks:
   my-network:
     driver: bridge
+
+volumes:
+  mysql-data:
